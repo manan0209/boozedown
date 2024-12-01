@@ -10,7 +10,8 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  const downloadsDir = path.join(os.homedir(), "Downloads");
+  const downloadsDir = path.join(os.tmpdir(), "downloads");  // Use Heroku's tmp folder
+
 
   if (!fs.existsSync(downloadsDir)) {
     fs.mkdirSync(downloadsDir);
@@ -27,17 +28,8 @@ export default async function handler(req, res) {
   const outputName = `${Date.now()}`;
   const outputFile = path.join(downloadsDir, `${outputName}`);
 
-  const ytDlpPath = path.join(
-    "C:",
-    "Users",
-    "91805",
-    "AppData",
-    "Roaming",
-    "Python",
-    "Python312",
-    "Scripts",
-    "yt-dlp.exe"
-  );
+  const ytDlpPath = "yt-dlp";  // Assuming yt-dlp is installed globally on Heroku
+
 
   // Commands for video and audio
   const command =
