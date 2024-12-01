@@ -12,9 +12,25 @@ export default async function handler(req, res) {
     res.setHeader('Content-Type', contentType);
     res.setHeader('Content-Disposition', `attachment; filename="download.${format === 'audio' ? 'mp3' : 'mp4'}"`);
 
-    const stream = ytdl(url, { quality: format === 'audio' ? 'highestaudio' : 'highestvideo' });
+    const stream = ytdl(url, {
+      quality: format === 'audio' ? 'highestaudio' : 'highestvideo',
+    });
+
     stream.pipe(res);
+
+    stream.on('end', () => {
+      res.end();
+    });
+
+    stream.on('error', (error) => {
+      console.error('Download error:', error);
+      if (error.statusCode === 410) {
+        return res.status(410).json({ error: 'The video is no longer available.' });
+      }
+      return res.status(500).json({ error: 'Failed to process the request' });
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to process the request' });
+    console.error('General error:', error);
+    return res.status(500).json({ error: 'Failed to process the request' });
   }
 }

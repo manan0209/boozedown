@@ -7,7 +7,27 @@ export default function DownloaderForm() {
 
   const handleDownload = async (e) => {
     e.preventDefault();
-    window.location.href = `/api/download?url=${encodeURIComponent(url)}&format=${format}`;
+
+    // Send POST request with URL and format in the body
+    const response = await fetch('/api/download', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ url, format }), // Send data in the request body
+    });
+
+    if (!response.ok) {
+      console.error('Download failed:', await response.json());
+      return;
+    }
+
+    // Trigger the download
+    const blob = await response.blob();
+    const downloadLink = document.createElement('a');
+    downloadLink.href = window.URL.createObjectURL(blob);
+    downloadLink.download = `download.${format === 'audio' ? 'mp3' : 'mp4'}`;
+    downloadLink.click();
   };
 
   const handleFileUpload = async (e) => {
