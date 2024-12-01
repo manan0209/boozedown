@@ -7,31 +7,22 @@ export default function DownloaderForm() {
 
   const handleDownload = async (e) => {
     e.preventDefault();
-
-    // Send POST request with URL and format in the body
-    const response = await fetch('/api/download', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ url, format }), // Send data in the request body
-    });
-
-    if (!response.ok) {
-      console.error('Download failed:', await response.json());
+    if (!url) {
+      alert('Please enter a valid YouTube URL');
       return;
     }
 
-    // Trigger the download
-    const blob = await response.blob();
-    const downloadLink = document.createElement('a');
-    downloadLink.href = window.URL.createObjectURL(blob);
-    downloadLink.download = `download.${format === 'audio' ? 'mp3' : 'mp4'}`;
-    downloadLink.click();
+    const downloadUrl = `/api/download?url=${encodeURIComponent(url)}&format=${format}`;
+    window.location.href = downloadUrl;
   };
 
   const handleFileUpload = async (e) => {
     e.preventDefault();
+    if (!file) {
+      alert('Please select a file to upload');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('video', file);
 
@@ -40,18 +31,23 @@ export default function DownloaderForm() {
       body: formData,
     });
 
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'audio.mp3';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'audio.mp3';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      alert('Failed to extract MP3 from the file');
+    }
   };
 
   return (
     <div className="mt-6 space-y-6">
+      {/* YouTube Downloader Form */}
       <form onSubmit={handleDownload} className="bg-white shadow-md rounded-lg p-6 space-y-4">
         <h2 className="text-xl font-semibold">Download YouTube Video</h2>
         <input
@@ -75,6 +71,7 @@ export default function DownloaderForm() {
         </button>
       </form>
 
+      {/* Extract MP3 from File Form */}
       <form onSubmit={handleFileUpload} className="bg-white shadow-md rounded-lg p-6 space-y-4">
         <h2 className="text-xl font-semibold">Extract MP3 from File</h2>
         <input
