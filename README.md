@@ -1,40 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# BoozeDown
 
-## Getting Started
+BoozeDown is a YouTube downloader API built with Next.js. It allows users to download YouTube videos or audio in their preferred format. The project leverages the globally installed `yt-dlp` tool for efficient processing of video/audio downloads.  
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Download YouTube Videos**: Download video files in high-quality MP4 format.
+- **Download YouTube Audio**: Extract audio and save it in MP3 format.
+- **Streamlined API**: Simple endpoints for initiating downloads.
+- **Automatic Cleanup**: Ensures temporary files are deleted after downloads.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Why Use `yt-dlp` Globally?
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+We opted for a global installation of `yt-dlp` for several reasons:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+1. **Performance**: Installing `yt-dlp` globally ensures it's pre-compiled and ready to use, reducing overhead during runtime.
+2. **Versatility**: `yt-dlp` is a powerful, community-maintained tool that supports various video platforms beyond YouTube, ensuring future scalability.
+3. **Separation of Concerns**: By using it globally, the project avoids managing `yt-dlp` binaries directly, simplifying the codebase.
+4. **Portability**: Users can easily reuse the global `yt-dlp` installation across other projects.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+Follow these steps to set up the project:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+### Prerequisites
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Node.js**: Ensure you have Node.js installed on your system.
+- **Global Installation of `yt-dlp`**:  
+  You need to install `yt-dlp` globally on your system.  
 
-## Deploy on Vercel
+#### Installing `yt-dlp`
+1. Install Python 3.7 or later if it's not already installed.  
+   [Download Python](https://www.python.org/downloads/)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+2. Install `yt-dlp` using Python's package manager `pip`:  
+   ```bash
+   pip install -U yt-dlp
+3. Verify the installation:
+   ```bash
+   yt-dlp --version
+   
+### Clone the Repository
+   ```bash
+    git clone https://github.com/your-username/boozedown.git
+    cd boozedown
