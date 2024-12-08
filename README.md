@@ -2,7 +2,7 @@
 
 BoozeDown is a versatile tool designed for media processing. With BoozeDown, you can download videos or extract audio from YouTube URLs and uploaded video files effortlessly. Built with a simple API, BoozeDown leverages the powerful `yt-dlp` and Node.js for efficient performance. This project is optimized for local setups but can be expanded for deployment in production environments.
 
-## Snapshots
+## Snapshot
 <img src="project.png" alt="Project Screenshot"  />
 ---
 
